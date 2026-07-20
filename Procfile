@@ -1,1 +1,1 @@
-web: gunicorn blog_page.wsgi:application
+web: gunicorn GFG_django_project.wsgi:application
