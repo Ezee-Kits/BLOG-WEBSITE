@@ -1,0 +1,98 @@
+{% extends 'blog_page/base.html' %}
+
+{% block head %}  
+    <title>Post Detail</title>
+    <style>
+        .post-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .post-meta {
+            font-weight: bold;
+            color: #555;
+        }
+
+        .content-preview {
+            overflow: hidden;
+            max-height: 200px;
+            position: relative;
+        }
+
+        .read-more-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            margin-top: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .content-full {
+            display: none;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <!-- Header with Author Image -->
+    <div class="post-header">
+        <img src="{{ post_detail.author.image.image.url }}" class="rounded-circle" width="80" height="80">
+        <div>
+            <h2 class="mb-0">{{ post_detail.author }}</h2>
+            <small class="post-meta">Author: {{ post_detail.author }}</small>
+        </div>
+    </div>
+
+    <!-- Post Content -->
+    <div class="card p-4 mb-4">
+        <h4 class="mb-3"><strong>Content:</strong></h4>
+
+        {% comment %} Content display with "Read More" feature {% endcomment %}
+        <div id="content-container">
+            <div class="content-preview" id="preview-content">
+                {{ post_detail.content|truncatewords:100 }}
+            </div>
+            <div class="content-full" id="full-content">
+                {{ post_detail.content|linebreaks }}
+            </div>
+            <button class="read-more-btn" onclick="toggleContent()">Read More</button>
+        </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="text-center mb-5">
+        <hr>
+        {% if request.user == post_detail.author %}
+            <h4 class="mb-3"><strong>Do you want to Delete or Update?</strong></h4>
+            <a href="{% url 'home-page' %}" class="btn btn-secondary mx-1">Go Back</a>
+            <a href="{% url 'delete_post-page' post_detail.id %}" class="btn btn-danger mx-1">Delete</a>
+            <a href="{% url 'update_post-page' post_detail.id %}" class="btn btn-primary mx-1">Update</a>
+        {% else %}
+            <a href="{% url 'home-page' %}" class="btn btn-secondary">Go Back</a>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+    function toggleContent() {
+        let preview = document.getElementById("preview-content");
+        let full = document.getElementById("full-content");
+        let button = event.target;
+
+        if (full.style.display === "none" || full.style.display === "") {
+            preview.style.display = "none";
+            full.style.display = "block";
+            button.innerText = "Show Less";
+        } else {
+            preview.style.display = "block";
+            full.style.display = "none";
+            button.innerText = "Read More";
+        }
+    }
+</script>
+{% endblock %}

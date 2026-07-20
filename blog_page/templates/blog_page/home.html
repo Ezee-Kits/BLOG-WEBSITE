@@ -1,0 +1,63 @@
+
+{% extends 'blog_page/base.html' %}
+{% load static %}
+
+{% block head %} 
+
+<title>Home</title>
+<link rel="stylesheet" href="{% static 'blog_page/mystyle.css' %}" type="text/css">
+
+
+{% endblock %}
+
+{% block body %} 
+
+<div class="container">
+
+    <form method="post" class="search-form">
+        {% csrf_token %}
+        <input type="search" name="input-search" placeholder="Search content here!" />
+        <button type="submit">Search</button>
+    </form>
+
+    {% for post in posts %}
+    <div class="post">
+        <h1>
+            <img src= {{ post.author.image.image.url }} width="60" height="60">
+            <a href="#">{{ post.author }}</a>
+        </h1>
+        <h1>{{ post.title }}</h1>
+        <!-- <h1>{{ post.title }}<br> -->
+        <small> <a href="{% url 'post_detail-page' post.id %}">{{ post.content|truncatewords:70 }}..... <big> read more </big></a> </small>
+        <!-- </h1> -->
+        <h1>{{ post.date_posted }}</h1>
+    </div>
+    {% endfor %}
+
+    {% if posts.has_other_pages %}
+    <ul class="pagination">
+        {% if posts.has_previous %}
+        <li><a href="?page={{ posts.previous_page_number }}">&laquo; Previous</a></li>
+        {% else %}
+        <li class="disable"><span>&laquo; Previous</span></li>
+        {% endif %}
+
+        {% for i in posts.paginator.page_range %}
+            {% if posts.number == i %}
+                <li><span>{{ i }}</span></li>
+            {% elif i > posts.number|add:'-3' and i < posts.number|add:'3' %}
+                <li><a href="?page={{ i }}">{{ i }}</a></li>
+            {% endif %}
+        {% endfor %}
+
+        {% if posts.has_next %}
+        <li><a href="?page={{ posts.next_page_number }}">Next &raquo;</a></li>
+        {% else %}
+        <li class="disable"><span>Next &raquo;</span></li>
+        {% endif %}
+    </ul>
+    {% endif %}
+
+</div>
+
+{% endblock %}

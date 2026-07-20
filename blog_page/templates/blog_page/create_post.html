@@ -1,0 +1,37 @@
+{% extends 'blog_page/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block head %}
+    {% if title %}
+        <title>{{ title }}</title>
+    {% else %}
+        <title>Create Post</title>
+    {% endif %}
+{% endblock head %}
+
+{% block body %}
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="card shadow-sm">
+                    <div class="card-header text-center bg-primary text-white">
+                        <h2>Create a New Post</h2>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST">
+                            {% csrf_token %}
+                            <fieldset class="form-group">
+                                <!-- Use crispy form to enhance form styling -->
+                                {{ form|crispy }}
+                            </fieldset>
+
+                            <div class="form-group text-center">
+                                <button class="btn btn-primary btn-lg w-100" type="submit">Post</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

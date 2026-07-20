@@ -1,0 +1,53 @@
+{% extends 'blog_page/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'blog_page/mystyle.css' %}" type="text/css">
+{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow-sm">
+                    <div class="card-header text-center">
+                        <h1>Login Here!</h1>
+                    </div>
+                    <div class="card-body">
+                        
+                        {% for message in messages %}
+                            <div class="alert alert-warning" role="alert">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                        
+                        <form method="POST">
+                            {% csrf_token %}
+                            <fieldset class="form-group">
+                                <div class="mb-3">
+                                    <label for="username" class="form-label">Username:</label>
+                                    {{ form.username }}
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Password:</label>
+                                    {{ form.password1 }}
+                                </div>
+                            </fieldset>
+
+                            <div class="form-group text-center">
+                                <button class="btn btn-primary w-100" type="submit">Login</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card-footer text-center">
+                        <p class="mb-0">Need an account?</p>
+                        <a class="btn btn-link" href="{% url 'register-page' %}">Sign Up</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

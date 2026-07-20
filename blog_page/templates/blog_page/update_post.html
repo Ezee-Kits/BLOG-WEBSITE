@@ -1,0 +1,57 @@
+{% extends 'blog_page/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block head %}
+    <title>Update Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #edf2f7;
+            margin: 0;
+            padding: 0;
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: 80px auto;
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2d3748;
+            margin-bottom: 30px;
+        }
+
+        input[type="submit"] {
+            background-color: #3182ce;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            display: block;
+            margin: 20px auto 0;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #2b6cb0;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+<div class="form-container">
+    <h1>📝 Update Form</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <input type="submit" value="UPDATE">
+    </form>
+</div>
+{% endblock %}

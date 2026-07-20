@@ -1,0 +1,26 @@
+{% extends 'blog_page/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="card shadow p-4 text-center">
+        <h2 class="text-danger mb-4">
+            Are you sure you want to delete 
+            <strong class="text-dark">"{{ post_detail.content }}"</strong>?
+        </h2>
+        
+        <div class="d-flex justify-content-center gap-3 mt-4">
+            <a href="{% url 'home-page' %}" class="btn btn-secondary btn-lg">
+                Cancel
+            </a>
+            
+            <form method="POST" class="d-inline">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger btn-lg">
+                    Yes, Delete
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
